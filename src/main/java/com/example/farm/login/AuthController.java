@@ -31,7 +31,7 @@ public class AuthController {
             return ResponseEntity.badRequest().body(Map.of("error", "Username already exists"));
         }
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Email already exists"));
+            return ResponseEntity.badRequest().body(Map.of("error", "Email already exists , try logging in...."));
         }
 
         // Save user with role
