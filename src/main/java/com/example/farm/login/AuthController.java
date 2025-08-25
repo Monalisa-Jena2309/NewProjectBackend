@@ -23,7 +23,7 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    // Register new user
+   
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
 
@@ -34,13 +34,13 @@ public class AuthController {
             return ResponseEntity.badRequest().body(Map.of("error", "Email already exists , try logging in...."));
         }
 
-        // Save user with role
+      
         User user = new User();
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        // Assign role: default ROLE_USER, but can pass ROLE_ADMIN if provided
+        
         String role = request.getRole() != null ? request.getRole() : "ROLE_USER";
         user.setRole(role);
 
@@ -49,7 +49,7 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("message", "User registered successfully!", "role", role));
     }
 
-    // Login and return JWT with role
+  
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
         Optional<User> dbUser = userRepository.findByUsername(request.getUsername());
