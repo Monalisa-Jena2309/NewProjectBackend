@@ -38,10 +38,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 if (jwtUtil.validateToken(token, username)) {
-                    // Extract role from JWT
-                    String role = jwtUtil.extractRole(token);
 
-                    // Set authority based on role
+                    // Extract role stored as "ROLE_USER" or "ROLE_ADMIN"
+                    String role = jwtUtil.extractRole(token);
                     SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
 
                     UsernamePasswordAuthenticationToken auth =
@@ -51,7 +50,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     Collections.singletonList(authority)
                             );
                     auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 }
             }
